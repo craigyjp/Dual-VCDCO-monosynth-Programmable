@@ -1,4 +1,4 @@
-# Dual-VCDCO-monosynth
+# Dual-VCDCO-Monosynth-Programmable
 - A monosynth based on the Hagiwo $9 VCO and the AS3372 Matrix 12 filter. 
 Switched the DCO processors to Waveshare RP2040 Zero chips to allow greater control of the waveform selection.
 
