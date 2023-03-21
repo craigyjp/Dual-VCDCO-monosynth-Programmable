@@ -1,11 +1,12 @@
 # Dual-VCDCO-monosynth
-- A monosynth based on the Hagiwo $9 VCO and the AS3372 Matrix 12 filter
-Having purchased some Seeed XIAO RP2040 boards to build a polysynth and not using them, I decided to give the HAGIWO $9 VCO a try on its own.
-Once I got it stable and nice sounding I decided it would make a good base for a dual oscillator monosynth and this was created.
+- A monosynth based on the Hagiwo $9 VCO and the AS3372 Matrix 12 filter. 
+Switched the DCO processors to Waveshare RP2040 Zero chips to allow greater control of the waveform selection.
 
-I modified the Hagiwo code to add an FM/Pitchbend input seperate from the CV so when a CV of 0V or 5V are used the Pitchbend and FM still work with negative voltages. This meant I lost the MOD CV input, but I've mixed the MOD pot and CV together onto the MOD input.
+- I modified the Hagiwo code to add an FM/Pitchbend input seperate from the CV so when a CV of 0V or 5V are used the Pitchbend and FM still work with negative voltages. This meant I lost the MOD CV input, but I've mixed the MOD pot and CV together onto the MOD input.
 
-I also added the modifications from clarionut on Look Mum No Computer to add the NeoPixel LED for the wave selection display and PWM for the square wave.
+- I also added the modifications from clarionut on Look Mum No Computer to add the NeoPixel LED for the wave selection display and PWM for the square wave.
+
+- This takes the previous DUAL DCO monosynth and integrates a programmer section to read all the controls and store them on an SD card inside the synth for instant recall of 999 memories.
 
 https://www.youtube.com/watch?v=fpNUdnT3NE0
 
@@ -24,6 +25,7 @@ https://www.youtube.com/watch?v=fpNUdnT3NE0
 - Master Tune
 - Pitchbend Range control
 - MIDI and CV/gate control
+- 999 Memories to store patches
 
 # Contributors
 
