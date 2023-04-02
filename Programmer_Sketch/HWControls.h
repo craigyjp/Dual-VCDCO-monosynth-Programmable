@@ -9,168 +9,175 @@
 ADC *adc = new ADC();
 
 //Teensy 3.6 - Mux Pins
-#define MUX_0 29
-#define MUX_1 30
-#define MUX_2 31
-#define MUX_3 32
+#define MUX_0 36
+#define MUX_1 35
+#define MUX_2 34
 
-#define MUX1_S A4
-#define MUX2_S A5
+#define MUX1_S A0
+#define MUX2_S A1
+#define MUX3_S A2
+#define MUX4_S A3
+#define MUX5_S A5
+#define MUX6_S A4
 
-#define DEMUX_0 36
-#define DEMUX_1 35
-#define DEMUX_2 34
-#define DEMUX_3 33
+#define DEMUX_0 29
+#define DEMUX_1 30
+#define DEMUX_2 31
+#define DEMUX_3 32
 
-#define DEMUX_EN_1 6
-#define DEMUX_EN_2 23
+#define DEMUX_EN_1 33
+#define DEMUX_EN_2 37
+
+#define FRIG5V 1.32
+#define FRIG2V 1.65
 
 //Mux 1 Connections
-#define MUX1_pwLFO 0
-#define MUX1_fmDepth 1
-#define MUX1_osc2PW 2
-#define MUX1_osc2PWM 3
-#define MUX1_osc1PW 4
-#define MUX1_osc1PWM 5
-#define MUX1_osc1Range 6
-#define MUX1_osc2Range 7
-#define MUX1_stack 8
-#define MUX1_glideTime 9
-#define MUX1_osc2Detune 10
-#define MUX1_noiseLevel 11
-#define MUX1_osc1SawLevel 12
-#define MUX1_osc2SawLevel 13
-#define MUX1_osc1PulseLevel 14
-#define MUX1_osc2PulseLevel 15
+#define MUX1_fmDepth 0
+#define MUX1_osc1Tune 1
+#define MUX1_LFORate 2
+#define MUX1_osc2Tune 3
+#define MUX1_LFOWaveform 4
+#define MUX1_osc2WaveMod 5
+#define MUX1_osc1WaveMod 6
+#define MUX1_osc1WaveSelect 7
 
 //Mux 2 Connections
 #define MUX2_filterCutoff 0
-#define MUX2_filterLFO 1
-#define MUX2_filterRes 2
-#define MUX2_filterType 3
-#define MUX2_filterEGlevel 4
-#define MUX2_LFORate 5 // spare mux output - decouple from DAC
-#define MUX2_LFOWaveform 6
-#define MUX2_volumeControl 7 // spare mux output
-#define MUX2_filterAttack 8
-#define MUX2_filterDecay 9
-#define MUX2_filterSustain 10
-#define MUX2_filterRelease 11
-#define MUX2_ampAttack 12 // spare mux output - decouple from DAC
-#define MUX2_ampDecay 13
-#define MUX2_ampSustain 14
-#define MUX2_ampRelease 15
+#define MUX2_osc1level 1
+#define MUX2_fmWaveDepth 2
+#define MUX2_filterEGlevel 3
+#define MUX2_osc2WaveSelect 4
+#define MUX2_keyTrack 5 // spare mux output - decouple from DAC
+#define MUX2_osc2level 6
+#define MUX2_noiseLevel 7 // spare mux output
 
 //Mux 3 Connections
-#define MUX3_modwheel 0
-#define MUX3_1 1
-#define MUX3_2 2
-#define MUX3_3 3
-#define MUX3_4 4
+#define MUX3_tmDepth 0
+#define MUX3_filterAttack 1
+#define MUX3_Resonance 2
+#define MUX3_filterDecay 3
+#define MUX3_ampAttack 4
 #define MUX3_5 5
-#define MUX3_6 6
+#define MUX3_ampDecay 6
 #define MUX3_7 7
-#define MUX3_8 8
-#define MUX3_9 9
-#define MUX3_10 10
-#define MUX3_11 11
-#define MUX3_12 12
-#define MUX3_13 13
-#define MUX3_14 14
-#define MUX3_15 15
+
+//Mux 4 Connections
+#define MUX4_filterSustain 0
+#define MUX4_ampRelease 1
+#define MUX4_ampSustain 2
+#define MUX4_filterRelease 3
+#define MUX4_glideTime 4
+#define MUX4_5 5
+#define MUX4_pbDepth 6
+#define MUX4_volumeControl 7
+
+//Switches 
+//Mux 5 Connections
+#define MUX5_osc2Wave_B 0
+#define MUX5_osc2Wave_A 1
+#define MUX5_osc1Oct_B 2
+#define MUX5_osc2Oct_A 3
+#define MUX5_lfoAlt 4
+#define MUX5_osc1Oct_A 5 // spare mux output - decouple from DAC
+#define MUX5_osc1Wave_A 6
+#define MUX5_osc1Wave_B 7 // spare mux output
+
+//Mux 6 Connections
+#define MUX6_filter_B 0
+#define MUX6_filter_A 1
+#define MUX6_osc2Oct_B 2
+#define MUX6_filter_C 3
+#define MUX6_filterPole 4
+#define MUX6_5 5
+#define MUX6_EGInvert 6
+#define MUX6_7 7
 
 //DeMux 1 Connections
-#define DEMUX1_noiseLevel 0                 // 0-2v
-#define DEMUX1_osc2PulseLevel 1             // 0-2v
-#define DEMUX1_osc2Level 2                  // 0-2v
-#define DEMUX1_LfoDepth 3                   // 0-2v
-#define DEMUX1_osc1PWM 4                    // 0-2v
-#define DEMUX1_PitchBend 5                  // 0-2v
-#define DEMUX1_osc1PulseLevel 6             // 0-2v
-#define DEMUX1_osc1Level 7                  // 0-2v
-#define DEMUX1_modwheel 8                   // 0-2v
-#define DEMUX1_volumeControl 9              // 0-2v
-#define DEMUX1_osc2PWM 10                   // 0-2v
-#define DEMUX1_spare 11                     // spare VCA 0-2v
-#define DEMUX1_AmpEGLevel 12                // Amplevel 0-5v
-#define DEMUX1_MasterTune 13                // -15v to +15v  control 12   +/-13v
-#define DEMUX1_osc2Detune 14                // -15v to +15v control 17 +/-13v
-#define DEMUX1_pitchEGLevel 15              // PitchEGlevel 0-5v
+#define DEMUX1_glide      0               // 0-10v
+#define DEMUX1_EGDepth 1                  // 0-5v
+#define DEMUX1_spare2 2                   // 0-3.3v
+#define DEMUX1_spare3 3                   // 0-3.3v
+#define DEMUX1_LFORate 4                  // 0-5v
+#define DEMUX1_LFOWave 5                  // 0-5v
+#define DEMUX1_spare6 6                   // 0-3.3v
+#define DEMUX1_spare7 7                   // 0-3.3v
+#define DEMUX1_filterAttack 8             // 0-5v
+#define DEMUX1_filterDecay 9              // 0-5v
+#define DEMUX1_spare10 10                 // 0-3.3v
+#define DEMUX1_spare11 11                 // 0-3.3v
+#define DEMUX1_filterSustain 12           // 0-5v
+#define DEMUX1_filteRelease 13            // 0-5v
+#define DEMUX1_spare14 14                 // 0-3.3v
+#define DEMUX1_spare15 15                 // 0-3.3v
 
 //DeMux 2 Connections
-#define DEMUX2_Amprelease 0                 // 0-5v
-#define DEMUX2_Ampsustain 1                 // 0-5v
-#define DEMUX2_Ampdecay 2                   // 0-5v
-#define DEMUX2_Ampattack 3                  // 0-5v
-#define DEMUX2_LfoRate 4                    // 0-5v
-#define DEMUX2_LFOMULTI 5                   // 0-5v
-#define DEMUX2_LFOWaveform 6                // 0-5v
-#define DEMUX2_LfoDelay 7                   // 0-5v
-#define DEMUX2_osc2PW 8                     // 0-5v
-#define DEMUX2_osc1PW 9                     // 0-5v
-#define DEMUX2_filterEGlevel 10             // FilterEGlevel 0-5v  
-#define DEMUX2_ADSRMode 11                  // 0-5v
-#define DEMUX2_pwLFO 12                     // 0-5v 
-#define DEMUX2_LfoSlope 13                  // 0-5v 
-#define DEMUX2_filterCutoff 14              // 0-10v
-#define DEMUX2_filterRes15                  // 0-10v
+#define DEMUX2_spare0 0                   // 0-3.3v
+#define DEMUX2_spare1 1                   // 0-3.3v
+#define DEMUX2_spare2 2                   // 0-3.3v
+#define DEMUX2_spare3 3                   // 0-3.3v
+#define DEMUX2_filterCutoff 4             // 0-5v
+#define DEMUX2_filterRes 5                // 0-5v
+#define DEMUX2_spare6 6                   // 0-3.3v
+#define DEMUX2_spare7 7                   // 0-3.3v
+#define DEMUX2_ampAttack 8                // 0-5v
+#define DEMUX2_AmpDecay 9                 // 0-5v
+#define DEMUX2_spare10 10                 // 0-3.3v
+#define DEMUX2_spare11 11                 // 0-3.3v
+#define DEMUX2_ampSustain 12              // 0-5v 
+#define DEMUX2_ampRelease 13              // 0-5v 
+#define DEMUX2_spare14 14                 // 0-3.3v
+#define DEMUX2_spare15 15                 // 0-3.3v
 
-//DeMux 3 Connections
-#define DEMUX3_filterA 0                    // filterA 0-5v switched
-#define DEMUX3_filterB 1                    // filterB 0-5v switched
-#define DEMUX3_filterC 2                    // filterC 0-5v switched
-#define DEMUX3_filterLoopA0 3                     // syncA0 0-5v switched
-#define DEMUX3_filterLoopA1 4                     // syncA1 0-5v switched    
-#define DEMUX3_LFOalt 5                     // lFOalt 0-5v switched
-#define DEMUX3_spare 6                      // spare 0-5v switched
-#define DEMUX3_spare1 7                      // spare 0-5v switched
-#define DEMUX3_pitchAttack 8                // Pitchattack 0-5v
-#define DEMUX3_pitchDecay 9                 // Pitchdecay 0-5v
-#define DEMUX3_pitchSustain 10              // Pitchsustain  0-5v
-#define DEMUX3_PitchRelease 11              // Pitchrelease 0-5v
-#define DEMUX3_filterAttack 12              // FilterAattack 0-5v
-#define DEMUX3_filterDecay 13               // Filterdecay 0-5v
-#define DEMUX3_filterSustain 14             // Filtersustain 0-5v
-#define DEMUX3_filterEelease 14             // Filterrelease 0-5v
+// New 595 outputs
 
-// 595 outputs
+#define MIDI1 0
+#define MIDI2 1
+#define MIDI4 2
+#define MIDI8 3
+#define FILTER_LIN_LOG 4
+#define AMP_LIN_LOG 5
+#define FLOOPBIT1 6
+#define FLOOPBIT0 7
 
-#define FILTER_EG_INV 10
-#define FILTER_POLE 11
-#define FILTER_KEYTRACK 12
-#define AMP_VELOCITY 13
-#define FILTER_VELOCITY 14
-#define AMP_LIN_LOG 15
-#define FILTER_LIN_LOG 16
-#define LFO_ALT 17
-#define AMP_LOOP 20
-#define FILTER_LOOP 21
-#define CHORUS1_OUT 22 
-#define CHORUS2_OUT 23
+#define NOTEPRIORITYA0 8
+#define NOTEPRIORITYA2 9
+#define ALOOPBIT1 10
+#define ALOOPBIT0 11
+#define EXTCLOCK 12
+#define MIDICLOCK 13
+#define AFTERTOUCH_A 14
+#define AFTERTOUCH_B 15
 
-// 595 LEDs
+#define AFTERTOUCH_C 16
+#define FILTER_POLE 17
+#define FILTER_EG_INV 18
+#define LFO_ALT 19
+#define OSC1_OCTA 20  //3.3v
+#define OSC1_OCTB 21  //3.3v
+#define OSC2_OCTA 22  //3.3v
+#define OSC2_OCTB 23  //3.3v
 
-#define LFO_ALT_LED 9 
-#define CHORUS1_LED 18 
-#define CHORUS2_LED 19
+#define OSC1_BANKA 24  //3.3v
+#define OSC1_BANKB 25  //3.3v
+#define OSC2_BANKA 26  //3.3v
+#define OSC2_BANKB 27  //3.3v
+#define FILTER_A 28
+#define FILTER_B 29
+#define FILTER_C 30
+//#define SPARE 31
 
-//Switches
-//Teensy 3.6 Pins
+#define OSC1_WAVEA 32  //3.3v
+#define OSC1_WAVEB 33  //3.3v
+#define OSC1_WAVEC 34  //3.3v
+#define OSC2_WAVEA 35  //3.3v
+#define OSC2_WAVEB 36  //3.3v
+#define OSC2_WAVEC 37  //3.3v
+//#define SPARE 38
+//#define SPARE 39
 
-// #define GLIDE_SW 34
-// #define FILTERKEYTRACK_SW 35
-// #define FILTERPOLE_SW 52
-// #define FILTERLOOP_SW 37
-// #define FILTERINV_SW 14
-// #define FILTERVEL_SW 15
-// #define VCALOOP_SW 51
-// #define VCAVEL_SW 18
-// #define VCAGATE_SW 49
-// #define LFO_ALT_SW 50
-// #define CHORUS2_SW 19
-// #define CHORUS1_SW 9
+// System buttons
 
-#define RECALL_SW 17
+#define RECALL_SW 6
 #define SAVE_SW 24
 #define SETTINGS_SW 12
 #define BACK_SW 10
@@ -178,35 +185,30 @@ ADC *adc = new ADC();
 #define ENCODER_PINA 4
 #define ENCODER_PINB 5
 
-#define MUXCHANNELS 16
+#define MUXCHANNELS 8
 #define DEMUXCHANNELS 16
-#define QUANTISE_FACTOR 3
+#define QUANTISE_FACTOR 7
 
 #define DEBOUNCE 30
 
 static byte muxInput = 0;
 static byte muxOutput = 0;
+
 static int mux1ValuesPrev[MUXCHANNELS] = {};
 static int mux2ValuesPrev[MUXCHANNELS] = {};
+static int mux3ValuesPrev[MUXCHANNELS] = {};
+static int mux4ValuesPrev[MUXCHANNELS] = {};
+static int mux5ValuesPrev[MUXCHANNELS] = {};
+static int mux6ValuesPrev[MUXCHANNELS] = {};
 
 static int mux1Read = 0;
 static int mux2Read = 0;
+static int mux3Read = 0;
+static int mux4Read = 0;
+static int mux5Read = 0;
+static int mux6Read = 0;
 
 static long encPrevious = 0;
-
-//These are pushbuttons and require debouncing
-// Bounce glideSwitch = Bounce(GLIDE_SW, DEBOUNCE);
-// Bounce keytrackSwitch = Bounce(FILTERKEYTRACK_SW, DEBOUNCE);
-// Bounce filterPoleSwitch = Bounce(FILTERPOLE_SW, DEBOUNCE);
-// Bounce filterLoopSwitch = Bounce(FILTERLOOP_SW, DEBOUNCE);
-// Bounce filterVelSwitch = Bounce(FILTERVEL_SW, DEBOUNCE);
-// Bounce filterInvSwitch = Bounce(FILTERINV_SW, DEBOUNCE);
-// Bounce vcaVelSwitch = Bounce(VCAVEL_SW, DEBOUNCE);
-// Bounce vcaLoopSwitch = Bounce(VCALOOP_SW, DEBOUNCE);
-// Bounce vcaGateSwitch = Bounce(VCAGATE_SW, DEBOUNCE);
-// Bounce lfoAltSwitch = Bounce(LFO_ALT_SW, DEBOUNCE);
-// Bounce chorus1Switch = Bounce(CHORUS1_SW, DEBOUNCE);
-// Bounce chorus2Switch = Bounce(CHORUS2_SW, DEBOUNCE);
 
 Bounce recallButton = Bounce(RECALL_SW, DEBOUNCE); //On encoder
 boolean recall = true; //Hack for recall button
@@ -238,7 +240,6 @@ void setupHardware()
   pinMode(MUX_0, OUTPUT);
   pinMode(MUX_1, OUTPUT);
   pinMode(MUX_2, OUTPUT);
-  pinMode(MUX_3, OUTPUT);
 
   pinMode(DEMUX_0, OUTPUT);
   pinMode(DEMUX_1, OUTPUT);
@@ -248,7 +249,6 @@ void setupHardware()
   digitalWrite(MUX_0, LOW);
   digitalWrite(MUX_1, LOW);
   digitalWrite(MUX_2, LOW);
-  digitalWrite(MUX_3, LOW);
 
   digitalWrite(DEMUX_0, LOW);
   digitalWrite(DEMUX_1, LOW);
@@ -272,17 +272,5 @@ void setupHardware()
   pinMode(SETTINGS_SW, INPUT_PULLUP);
   pinMode(BACK_SW, INPUT_PULLUP);
 
-  // pinMode(GLIDE_SW, INPUT);
-  // pinMode(FILTERKEYTRACK_SW, INPUT);
-  // pinMode(FILTERPOLE_SW, INPUT);
-  // pinMode(FILTERLOOP_SW, INPUT);
-  // pinMode(FILTERINV_SW, INPUT);
-  // pinMode(FILTERVEL_SW, INPUT);
-  // pinMode(VCALOOP_SW, INPUT);
-  // pinMode(VCAVEL_SW, INPUT);
-  // pinMode(VCAGATE_SW, INPUT);
-  // pinMode(LFO_ALT_SW, INPUT);
-  // pinMode(CHORUS2_SW, INPUT);
-  // pinMode(CHORUS1_SW, INPUT);
   
 }
