@@ -68,7 +68,7 @@ void renderBootUpPage()
   tft.setFont(&Yeysk16pt7b);
   tft.setCursor(0, 70);
   tft.setTextSize(1);
-  tft.println("SEEED DCO");
+  tft.println("SEEED");
   tft.setTextColor(ST7735_RED);
   tft.setFont(&FreeSans9pt7b);
   tft.setCursor(110, 95);

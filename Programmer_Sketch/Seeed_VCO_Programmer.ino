@@ -205,7 +205,6 @@ void setup() {
       sr.set(MIDI4, HIGH);
       sr.set(MIDI8, HIGH);
       break;
-
   }
 
   Serial.println("MIDI Ch:" + String(midiChannel) + " (0 is Omni On)");
@@ -257,7 +256,7 @@ void setup() {
       break;
   }
 
-    // Read NotePriority from EEPROM
+  // Read NotePriority from EEPROM
 
   NotePriority = getNotePriority();
   if (NotePriority < 0 || NotePriority > 2) {
@@ -412,8 +411,7 @@ void setup() {
 
   if (filterLogLin == 1) {
     sr.set(FILTER_LIN_LOG, HIGH);
-  }
-  else {
+  } else {
     sr.set(FILTER_LIN_LOG, LOW);
   }
 
@@ -425,8 +423,7 @@ void setup() {
 
   if (ampLogLin == 1) {
     sr.set(AMP_LIN_LOG, HIGH);
-  }
-  else {
+  } else {
     sr.set(AMP_LIN_LOG, LOW);
   }
 
@@ -439,7 +436,8 @@ void setup() {
   //Read Encoder Direction from EEPROM
   encCW = getEncoderDir();
   patchNo = getLastPatch();
-  recallPatch(patchNo);  //Load first patch
+  //Serial.println("Recalling initial patch ");
+  recallPatch(1);  //Load first patch
 
   //  reinitialiseToPanel();
 }
@@ -548,11 +546,93 @@ void updateglideTime() {
 }
 
 void updateosc1WaveSelect() {
-  showCurrentParameterPage("OSC1 Wave", String(osc1WaveSelectstr));
+  if (osc1WaveSelect >= 0 && osc1WaveSelect < 127) {
+    Oscillator1Waveform = "Wave 1";
+    sr.set(OSC1_WAVEA, LOW);
+    sr.set(OSC1_WAVEB, LOW);
+    sr.set(OSC1_WAVEC, LOW);
+  } else if (osc1WaveSelect >= 128 && osc1WaveSelect < 255) {
+    Oscillator1Waveform = "Wave 2";
+    sr.set(OSC1_WAVEA, HIGH);
+    sr.set(OSC1_WAVEB, LOW);
+    sr.set(OSC1_WAVEC, LOW);
+  } else if (osc1WaveSelect >= 256 && osc1WaveSelect < 383) {
+    Oscillator1Waveform = "Wave 3";
+    sr.set(OSC1_WAVEA, LOW);
+    sr.set(OSC1_WAVEB, HIGH);
+    sr.set(OSC1_WAVEC, LOW);
+  } else if (osc1WaveSelect >= 384 && osc1WaveSelect < 511) {
+    Oscillator1Waveform = "Wave 4";
+    sr.set(OSC1_WAVEA, HIGH);
+    sr.set(OSC1_WAVEB, HIGH);
+    sr.set(OSC1_WAVEC, LOW);
+  } else if (osc1WaveSelect >= 512 && osc1WaveSelect < 639) {
+    Oscillator1Waveform = "Wave 5";
+    sr.set(OSC1_WAVEA, LOW);
+    sr.set(OSC1_WAVEB, LOW);
+    sr.set(OSC1_WAVEC, HIGH);
+  } else if (osc1WaveSelect >= 640 && osc1WaveSelect < 767) {
+    Oscillator1Waveform = "Wave 6";
+    sr.set(OSC1_WAVEA, HIGH);
+    sr.set(OSC1_WAVEB, LOW);
+    sr.set(OSC1_WAVEC, HIGH);
+  } else if (osc1WaveSelect >= 768 && osc1WaveSelect < 895) {
+    Oscillator1Waveform = "Wave 7";
+    sr.set(OSC1_WAVEA, LOW);
+    sr.set(OSC1_WAVEB, HIGH);
+    sr.set(OSC1_WAVEC, HIGH);
+  } else if (osc1WaveSelect >= 896 && osc1WaveSelect < 1024) {
+    Oscillator1Waveform = "Wave 8";
+    sr.set(OSC1_WAVEA, HIGH);
+    sr.set(OSC1_WAVEB, HIGH);
+    sr.set(OSC1_WAVEC, HIGH);
+  }
+  showCurrentParameterPage("OSC1 Wave", Oscillator1Waveform);
 }
 
 void updateosc2WaveSelect() {
-  showCurrentParameterPage("OSC2 Wave", String(osc2WaveSelectstr));
+    if (osc2WaveSelect >= 0 && osc2WaveSelect < 127) {
+    Oscillator2Waveform = "Wave 1";
+    sr.set(OSC2_WAVEA, LOW);
+    sr.set(OSC2_WAVEB, LOW);
+    sr.set(OSC2_WAVEC, LOW);
+  } else if (osc2WaveSelect >= 128 && osc2WaveSelect < 255) {
+    Oscillator2Waveform = "Wave 2";
+    sr.set(OSC2_WAVEA, HIGH);
+    sr.set(OSC2_WAVEB, LOW);
+    sr.set(OSC2_WAVEC, LOW);
+  } else if (osc2WaveSelect >= 256 && osc2WaveSelect < 383) {
+    Oscillator2Waveform = "Wave 3";
+    sr.set(OSC2_WAVEA, LOW);
+    sr.set(OSC2_WAVEB, HIGH);
+    sr.set(OSC2_WAVEC, LOW);
+  } else if (osc2WaveSelect >= 384 && osc2WaveSelect < 511) {
+    Oscillator2Waveform = "Wave 4";
+    sr.set(OSC2_WAVEA, HIGH);
+    sr.set(OSC2_WAVEB, HIGH);
+    sr.set(OSC2_WAVEC, LOW);
+  } else if (osc2WaveSelect >= 512 && osc2WaveSelect < 639) {
+    Oscillator2Waveform = "Wave 5";
+    sr.set(OSC2_WAVEA, LOW);
+    sr.set(OSC2_WAVEB, LOW);
+    sr.set(OSC2_WAVEC, HIGH);
+  } else if (osc2WaveSelect >= 640 && osc2WaveSelect < 767) {
+    Oscillator2Waveform = "Wave 6";
+    sr.set(OSC2_WAVEA, HIGH);
+    sr.set(OSC2_WAVEB, LOW);
+    sr.set(OSC2_WAVEC, HIGH);
+  } else if (osc2WaveSelect >= 768 && osc2WaveSelect < 895) {
+    Oscillator2Waveform = "Wave 7";
+    sr.set(OSC2_WAVEA, LOW);
+    sr.set(OSC2_WAVEB, HIGH);
+    sr.set(OSC2_WAVEC, HIGH);
+  } else if (osc2WaveSelect >= 896 && osc2WaveSelect < 1024) {
+    Oscillator2Waveform = "Wave 8";
+    sr.set(OSC2_WAVEA, HIGH);
+    sr.set(OSC2_WAVEB, HIGH);
+    sr.set(OSC2_WAVEC, HIGH);
+  }
+  showCurrentParameterPage("OSC2 Wave", Oscillator2Waveform);
 }
 
 void updatenoiseLevel() {
@@ -675,48 +755,44 @@ void updateLFORate() {
 }
 
 void updateStratusLFOWaveform() {
-  getStratusLFOWaveform(LFOWaveform);
-  showCurrentParameterPage("LFO Wave", StratusLFOWaveform);
-}
-
-int getStratusLFOWaveform(int value) {
-  if (lfoAlt == 1) {
-    if (value >= 0 && value < 127) {
+  if (lfoAlt > 511) {
+    if (LFOWaveform >= 0 && LFOWaveform < 127) {
       StratusLFOWaveform = "Saw +Oct";
-    } else if (value >= 128 && value < 255) {
+    } else if (LFOWaveform >= 128 && LFOWaveform < 255) {
       StratusLFOWaveform = "Quad Saw";
-    } else if (value >= 256 && value < 383) {
+    } else if (LFOWaveform >= 256 && LFOWaveform < 383) {
       StratusLFOWaveform = "Quad Pulse";
-    } else if (value >= 384 && value < 511) {
+    } else if (LFOWaveform >= 384 && LFOWaveform < 511) {
       StratusLFOWaveform = "Tri Step";
-    } else if (value >= 512 && value < 639) {
+    } else if (LFOWaveform >= 512 && LFOWaveform < 639) {
       StratusLFOWaveform = "Sine +Oct";
-    } else if (value >= 640 && value < 767) {
+    } else if (LFOWaveform >= 640 && LFOWaveform < 767) {
       StratusLFOWaveform = "Sine +3rd";
-    } else if (value >= 768 && value < 895) {
+    } else if (LFOWaveform >= 768 && LFOWaveform < 895) {
       StratusLFOWaveform = "Sine +4th";
-    } else if (value >= 896 && value < 1024) {
+    } else if (LFOWaveform >= 896 && LFOWaveform < 1024) {
       StratusLFOWaveform = "Rand Slopes";
     }
   } else {
-    if (value >= 0 && value < 127) {
+    if (LFOWaveform >= 0 && LFOWaveform < 127) {
       StratusLFOWaveform = "Sawtooth Up";
-    } else if (value >= 128 && value < 255) {
+    } else if (LFOWaveform >= 128 && LFOWaveform < 255) {
       StratusLFOWaveform = "Sawtooth Down";
-    } else if (value >= 256 && value < 383) {
+    } else if (LFOWaveform >= 256 && LFOWaveform < 383) {
       StratusLFOWaveform = "Squarewave";
-    } else if (value >= 384 && value < 511) {
+    } else if (LFOWaveform >= 384 && LFOWaveform < 511) {
       StratusLFOWaveform = "Triangle";
-    } else if (value >= 512 && value < 639) {
+    } else if (LFOWaveform >= 512 && LFOWaveform < 639) {
       StratusLFOWaveform = "Sinewave";
-    } else if (value >= 640 && value < 767) {
+    } else if (LFOWaveform >= 640 && LFOWaveform < 767) {
       StratusLFOWaveform = "Sweeps";
-    } else if (value >= 768 && value < 895) {
+    } else if (LFOWaveform >= 768 && LFOWaveform < 895) {
       StratusLFOWaveform = "Lumps";
-    } else if (value >= 896 && value < 1024) {
+    } else if (LFOWaveform >= 896 && LFOWaveform < 1024) {
       StratusLFOWaveform = "Sample & Hold";
     }
   }
+  showCurrentParameterPage("LFO Wave", StratusLFOWaveform);
 }
 
 void updatefilterAttack() {
@@ -1329,6 +1405,8 @@ void setCurrentPatchData(String data[]) {
   updateosc2Range();
   updateosc1Bank();
   updateosc2Bank();
+  updateosc1WaveSelect();
+  updateosc2WaveSelect();
   updateFilterType();
   updateFilterEnv();
   updateAmpEnv();
@@ -1347,6 +1425,7 @@ String getCurrentPatchData() {
 }
 
 void checkMux() {
+
   mux1Read = adc->adc0->analogRead(MUX1_S);
   mux2Read = adc->adc0->analogRead(MUX2_S);
   mux3Read = adc->adc0->analogRead(MUX3_S);
@@ -1585,13 +1664,10 @@ void midiCCOut(byte cc, byte value) {
 
 void writeDemux() {
 
-  //DEMUX 1
-  //digitalWriteFast(DEMUX_EN_1, LOW);
-  //delay(1);
   switch (muxOutput) {
     case 0:
       analogWrite(A21, int(glideTime));
-      analogWrite(A22, int(0));
+      analogWrite(A22, int(filterLFO / FRIG2V));
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
@@ -1601,15 +1677,15 @@ void writeDemux() {
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 2: // 0-3.3v max
+    case 2:  // 0-3.3v max
       analogWrite(A21, noiseLevel / FRIG2V);
-      analogWrite(A22, osc1Level / FRIG2V);
+      analogWrite(A22, osc1Level / FRIG5V);
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 3: // 0-3.3v max
+    case 3:  // 0-3.3v max
       analogWrite(A21, volumeControl / FRIG2V);
-      analogWrite(A22, osc2Level / FRIG2V);
+      analogWrite(A22, osc2Level / FRIG5V);
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
@@ -1625,13 +1701,13 @@ void writeDemux() {
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 6: // 0-3.3v max
+    case 6:  // 0-3.3v max
       analogWrite(A21, int(keyTrack / FRIG2V));
       analogWrite(A22, int(fmWaveDepth / FRIG2V));
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 7: // 0-3.3v max
+    case 7:  // 0-3.3v max
       analogWrite(A21, int(afterTouch / FRIG2V));
       analogWrite(A22, masterTune);
       digitalWriteFast(DEMUX_EN_1, LOW);
@@ -1649,13 +1725,13 @@ void writeDemux() {
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 10: // 0-3.3v max
+    case 10:  // 0-3.3v max
       analogWrite(A21, int(fmDepth / FRIG2V));
       analogWrite(A22, int(0));
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 11: // 0-3.3v max
+    case 11:  // 0-3.3v max
       analogWrite(A21, int(PitchBendLevel / FRIG2V));
       analogWrite(A22, int(0));
       digitalWriteFast(DEMUX_EN_1, LOW);
@@ -1673,13 +1749,13 @@ void writeDemux() {
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 14: // 0-3.3v max
+    case 14:  // 0-3.3v max
       analogWrite(A21, osc1Tune);
       analogWrite(A22, osc1WaveMod);
       digitalWriteFast(DEMUX_EN_1, LOW);
       digitalWriteFast(DEMUX_EN_2, LOW);
       break;
-    case 15: // 0-3.3v max
+    case 15:  // 0-3.3v max
       analogWrite(A21, osc2Tune);
       analogWrite(A22, osc2WaveMod);
       digitalWriteFast(DEMUX_EN_1, LOW);
@@ -1905,6 +1981,10 @@ void reinitialiseToPanel() {
   for (int i = 0; i < MUXCHANNELS; i++) {
     mux1ValuesPrev[i] = RE_READ;
     mux2ValuesPrev[i] = RE_READ;
+    mux3ValuesPrev[i] = RE_READ;
+    mux4ValuesPrev[i] = RE_READ;
+    mux5ValuesPrev[i] = RE_READ;
+    mux6ValuesPrev[i] = RE_READ;
   }
   patchName = INITPATCHNAME;
   showPatchPage("Initial", "Panel Settings");
@@ -1992,8 +2072,7 @@ void checkForChanges() {
   if (filterLogLin != oldfilterLogLin) {
     if (filterLogLin == 1) {
       sr.set(FILTER_LIN_LOG, HIGH);
-    }
-    else {
+    } else {
       sr.set(FILTER_LIN_LOG, LOW);
     }
     oldfilterLogLin = filterLogLin;
@@ -2002,14 +2081,13 @@ void checkForChanges() {
   if (ampLogLin != oldampLogLin) {
     if (ampLogLin == 1) {
       sr.set(AMP_LIN_LOG, HIGH);
-    }
-    else {
+    } else {
       sr.set(AMP_LIN_LOG, LOW);
     }
     oldampLogLin = ampLogLin;
   }
 
-  if (midiChannel != oldmidiChannel ) {
+  if (midiChannel != oldmidiChannel) {
     switch (midiChannel) {
       case 0:
         sr.set(MIDI1, LOW);
