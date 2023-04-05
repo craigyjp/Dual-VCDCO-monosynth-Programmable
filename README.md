@@ -12,7 +12,7 @@ https://www.youtube.com/watch?v=fpNUdnT3NE0
 
 - Specifications
 
-- Dual Wavetable VCDCO with 24 waveforms, AM, FM, etc
+- Dual Wavetable VCDCO with 24 waveforms, Fold, FM, AM
 - FM Modulation, wavetable modulation, LED wave indicator
 - Octave Up, Down, Normal per DCO
 - AS3372E pole mixing filter with 16 configurations
