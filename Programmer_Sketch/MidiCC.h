@@ -21,7 +21,6 @@
 #define   CCKeyTrack  30//Off/On
 #define   CCosc1Level 37
 #define   CCfilterType 39
-#define   CCvcaLoop 41
 #define   CCosc2Level 42
 #define   CCfmWaveDepth 43
 #define   CCfilterRelease  44
@@ -30,7 +29,6 @@
 #define   CCfilterDecay  47
 #define   CCfilterLevel  48
 #define   CCfilterEGinv  50
-#define   CCfilterLoop  52
 #define   CCfilterEGlevel  53
 #define   CCampRelease  57
 #define   CCampAttack 58

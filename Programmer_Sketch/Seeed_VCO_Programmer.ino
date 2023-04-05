@@ -210,16 +210,14 @@ void setup() {
   Serial.println("MIDI Ch:" + String(midiChannel) + " (0 is Omni On)");
 
   //USB Client MIDI
-  usbMIDI.setHandleControlChange(myControlChange);
+  usbMIDI.setHandleControlChange(myupliftControlChange);
   usbMIDI.setHandleProgramChange(myProgramChange);
-  usbMIDI.setHandleAfterTouchChannel(myAfterTouch);
   Serial.println("USB Client MIDI Listening");
 
   //MIDI 5 Pin DIN
   MIDI.begin();
-  MIDI.setHandleControlChange(myControlChange);
+  MIDI.setHandleControlChange(myupliftControlChange);
   MIDI.setHandleProgramChange(myProgramChange);
-  MIDI.setHandleAfterTouchChannel(myAfterTouch);
   MIDI.turnThruOn(midi::Thru::Mode::Off);
   Serial.println("MIDI In DIN Listening");
 
@@ -408,23 +406,27 @@ void setup() {
     storeFilterEnv(0);
   }
   oldfilterLogLin = filterLogLin;
-
-  if (filterLogLin == 1) {
-    sr.set(FILTER_LIN_LOG, HIGH);
-  } else {
-    sr.set(FILTER_LIN_LOG, LOW);
+  switch (filterLogLin) {
+    case 0:
+      sr.set(FILTER_LIN_LOG, LOW);
+      break;
+    case 1:
+      sr.set(FILTER_LIN_LOG, HIGH);
+      break;
   }
 
   ampLogLin = getAmpEnv();
   if (ampLogLin < 0 || ampLogLin > 1) {
     storeAmpEnv(0);
-  }
+  } 
   oldampLogLin = ampLogLin;
-
-  if (ampLogLin == 1) {
-    sr.set(AMP_LIN_LOG, HIGH);
-  } else {
-    sr.set(AMP_LIN_LOG, LOW);
+  switch (ampLogLin) {
+    case 0:
+      sr.set(AMP_LIN_LOG, LOW);
+      break;
+    case 1:
+      sr.set(AMP_LIN_LOG, HIGH);
+      break;
   }
 
   //Read Pitch Bend Range from EEPROM
@@ -591,7 +593,7 @@ void updateosc1WaveSelect() {
 }
 
 void updateosc2WaveSelect() {
-    if (osc2WaveSelect >= 0 && osc2WaveSelect < 127) {
+  if (osc2WaveSelect >= 0 && osc2WaveSelect < 127) {
     Oscillator2Waveform = "Wave 1";
     sr.set(OSC2_WAVEA, LOW);
     sr.set(OSC2_WAVEB, LOW);
@@ -664,8 +666,8 @@ void updatefilterRes() {
 }
 
 void updateFilterType() {
-  if (filterA < 511 && filterB < 511 && filterC < 511) {
-    if (filterPoleSW > 511) {
+  if (filterA > 511 && filterB > 511 && filterC > 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("3P LowPass"));
     } else {
       showCurrentParameterPage("Filter Type", String("4P LowPass"));
@@ -674,8 +676,8 @@ void updateFilterType() {
     sr.set(FILTER_B, LOW);
     sr.set(FILTER_C, LOW);
 
-  } else if (filterA > 511 && filterB < 511 && filterC < 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA < 511 && filterB > 511 && filterC > 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("1P LowPass"));
     } else {
       showCurrentParameterPage("Filter Type", String("2P LowPass"));
@@ -684,8 +686,8 @@ void updateFilterType() {
     sr.set(FILTER_B, LOW);
     sr.set(FILTER_C, LOW);
 
-  } else if (filterA < 511 && filterB > 511 && filterC < 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA > 511 && filterB < 511 && filterC > 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("3P HP + 1P LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("4P HighPass"));
@@ -694,8 +696,8 @@ void updateFilterType() {
     sr.set(FILTER_B, HIGH);
     sr.set(FILTER_C, LOW);
 
-  } else if (filterA > 511 && filterB > 511 && filterC < 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA < 511 && filterB < 511 && filterC > 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("1P HP + 1P LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("2P HighPass"));
@@ -704,8 +706,8 @@ void updateFilterType() {
     sr.set(FILTER_B, HIGH);
     sr.set(FILTER_C, LOW);
 
-  } else if (filterA < 511 && filterB < 511 && filterC > 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA > 511 && filterB > 511 && filterC < 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("2P HP + 1P LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("4P BandPass"));
@@ -714,8 +716,8 @@ void updateFilterType() {
     sr.set(FILTER_B, LOW);
     sr.set(FILTER_C, HIGH);
 
-  } else if (filterA > 511 && filterB < 511 && filterC > 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA < 511 && filterB > 511 && filterC < 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("2P BP + 1P LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("2P BandPass"));
@@ -724,8 +726,8 @@ void updateFilterType() {
     sr.set(FILTER_B, LOW);
     sr.set(FILTER_C, HIGH);
 
-  } else if (filterA < 511 && filterB > 511 && filterC > 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA > 511 && filterB < 511 && filterC < 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("3P AP + 1P LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("3P AllPass"));
@@ -734,8 +736,8 @@ void updateFilterType() {
     sr.set(FILTER_B, HIGH);
     sr.set(FILTER_C, HIGH);
 
-  } else if (filterA > 511 && filterB > 511 && filterC > 511) {
-    if (filterPoleSW > 511) {
+  } else if (filterA < 511 && filterB < 511 && filterC < 511) {
+    if (filterPoleSW < 511) {
       showCurrentParameterPage("Filter Type", String("2P Notch + LP"));
     } else {
       showCurrentParameterPage("Filter Type", String("Notch"));
@@ -755,7 +757,7 @@ void updateLFORate() {
 }
 
 void updateStratusLFOWaveform() {
-  if (lfoAlt > 511) {
+  if (lfoAlt < 511) {
     if (LFOWaveform >= 0 && LFOWaveform < 127) {
       StratusLFOWaveform = "Saw +Oct";
     } else if (LFOWaveform >= 128 && LFOWaveform < 255) {
@@ -859,35 +861,43 @@ void updatevolumeControl() {
 
 void updatefilterPoleSwitch() {
   if (filterPoleSW < 511) {
-    showCurrentParameterPage("VCF Pole", "On");
+    //showCurrentParameterPage("VCF Pole", "On");
     sr.set(FILTER_POLE, HIGH);
     midiCCOut(CCfilterPoleSW, 127);
+    updateFilterType();
   } else {
-    showCurrentParameterPage("VCF Pole", "Off");
+    //showCurrentParameterPage("VCF Pole", "Off");
     sr.set(FILTER_POLE, LOW);
-    midiCCOut(CCfilterPoleSW, 1);
+    midiCCOut(CCfilterPoleSW, 0);
+    updateFilterType();
   }
 }
 
 void updatefilterLoop() {
-  if (filterLoop == 1) {
-    showCurrentParameterPage("VCF EG Loop", "On");
-    //sr.set(3, HIGH);  // LED on
-    //sr.set(FILTER_LOOP, HIGH);
-    midiCCOut(CCfilterLoop, 127);
-  } else {
-    showCurrentParameterPage("VCF EG Loop", "Off");
-    //sr.set(3, LOW);  // LED off
-    //sr.set(FILTER_LOOP, LOW);
-    midiCCOut(CCfilterLoop, 1);
+  switch (FilterLoop) {
+    case 0:
+      sr.set(FLOOPBIT0, LOW);
+      sr.set(FLOOPBIT1, LOW);
+      break;
+
+    case 1:
+      sr.set(FLOOPBIT0, HIGH);
+      sr.set(FLOOPBIT1, LOW);
+      break;
+
+    case 2:
+      sr.set(FLOOPBIT0, HIGH);
+      sr.set(FLOOPBIT1, HIGH);
+      break;
   }
+  oldFilterLoop = FilterLoop;
 }
 
 void updatefilterEGinv() {
   if (filterEGinv > 511) {
     showCurrentParameterPage("Filter Env", "Positive");
     sr.set(FILTER_EG_INV, LOW);
-    midiCCOut(CCfilterEGinv, 1);
+    midiCCOut(CCfilterEGinv, 0);
   } else {
     showCurrentParameterPage("Filter Env", "Negative");
     sr.set(FILTER_EG_INV, HIGH);
@@ -896,24 +906,30 @@ void updatefilterEGinv() {
 }
 
 void updatevcaLoop() {
-  if (vcaLoop == 1) {
-    showCurrentParameterPage("VCA EG Loop", "On");
-    //sr.set(6, HIGH);  // LED on
-    //sr.set(AMP_LOOP, HIGH);
-    midiCCOut(CCvcaLoop, 127);
-  } else {
-    showCurrentParameterPage("VCA EG Loop", "Off");
-    //sr.set(6, LOW);  // LED off
-    //sr.set(AMP_LOOP, LOW);
-    midiCCOut(CCvcaLoop, 1);
+  switch (AmpLoop) {
+    case 0:
+      sr.set(ALOOPBIT0, LOW);
+      sr.set(ALOOPBIT1, LOW);
+      break;
+
+    case 1:
+      sr.set(ALOOPBIT0, HIGH);
+      sr.set(ALOOPBIT1, LOW);
+      break;
+
+    case 2:
+      sr.set(ALOOPBIT0, HIGH);
+      sr.set(ALOOPBIT1, HIGH);
+      break;
   }
+  oldAmpLoop = AmpLoop;
 }
 
 void updatelfoAlt() {
   if (lfoAlt > 511) {
     showCurrentParameterPage("LFO Waveform", String("Original"));
     sr.set(LFO_ALT, HIGH);
-    midiCCOut(CClfoAlt, 1);
+    midiCCOut(CClfoAlt, 0);
   } else {
     showCurrentParameterPage("LFO Waveform", String("Alternate"));
     sr.set(LFO_ALT, LOW);
@@ -922,19 +938,27 @@ void updatelfoAlt() {
 }
 
 void updateFilterEnv() {
-  if (filterLogLin == 0) {
-    //sr.set(FILTER_LIN_LOG, HIGH);
-  } else {
-    //sr.set(FILTER_LIN_LOG, LOW);
+  switch (filterLogLin) {
+    case 0:
+      sr.set(FILTER_LIN_LOG, LOW);
+      break;
+    case 1:
+      sr.set(FILTER_LIN_LOG, HIGH);
+      break;
   }
+  oldfilterLogLin = filterLogLin;
 }
 
 void updateAmpEnv() {
-  if (ampLogLin == 0) {
-    //sr.set(AMP_LIN_LOG, HIGH);
-  } else {
-    //sr.set(AMP_LIN_LOG, LOW);
+  switch (ampLogLin) {
+    case 0:
+      sr.set(AMP_LIN_LOG, LOW);
+      break;
+    case 1:
+      sr.set(AMP_LIN_LOG, HIGH);
+      break;
   }
+  oldampLogLin = ampLogLin;
 }
 
 void updatePitchBend() {
@@ -947,6 +971,42 @@ void updatemodWheel() {
 
 void updatePatchname() {
   showPatchPage(String(patchNo), patchName);
+}
+
+void updateAfterTouchDest() {
+  switch (AfterTouchDest) {
+    case 0:
+      sr.set(AFTERTOUCH_A, LOW);
+      sr.set(AFTERTOUCH_B, LOW);
+      sr.set(AFTERTOUCH_C, LOW);
+      break;
+
+    case 1:
+      sr.set(AFTERTOUCH_A, HIGH);
+      sr.set(AFTERTOUCH_B, LOW);
+      sr.set(AFTERTOUCH_C, LOW);
+      break;
+
+    case 2:
+      sr.set(AFTERTOUCH_A, LOW);
+      sr.set(AFTERTOUCH_B, HIGH);
+      sr.set(AFTERTOUCH_C, LOW);
+      break;
+
+    case 3:
+      sr.set(AFTERTOUCH_A, HIGH);
+      sr.set(AFTERTOUCH_B, HIGH);
+      sr.set(AFTERTOUCH_C, LOW);
+      break;
+  }
+  oldAfterTouchDest = AfterTouchDest;
+}
+
+void myupliftControlChange(byte channel, byte control, int value) {
+     value = value << 3;
+     channel = channel;
+     control = control;
+     myControlChange(channel, control, value);
 }
 
 void myControlChange(byte channel, byte control, int value) {
@@ -1218,16 +1278,6 @@ void myControlChange(byte channel, byte control, int value) {
       updatefilterEGinv();
       break;
 
-    case CCfilterLoop:
-      value > 0 ? filterLoop = 1 : filterLoop = 0;
-      updatefilterLoop();
-      break;
-
-    case CCvcaLoop:
-      value > 0 ? vcaLoop = 1 : vcaLoop = 0;
-      updatevcaLoop();
-      break;
-
     case CCosc1BankA:
       osc1BankA = value;
       updateosc1Bank();
@@ -1303,24 +1353,6 @@ void myProgramChange(byte channel, byte program) {
   state = PARAMETER;
 }
 
-void myAfterTouch(byte channel, byte value) {
-  afterTouch = (value * 8);
-  switch (AfterTouchDest) {
-    case 1:
-      fmDepth = (int(afterTouch));
-      break;
-    case 2:
-      filterCutoff = (filterCutoff + (int(afterTouch)));
-      if (int(afterTouch) <= 8) {
-        filterCutoff = oldfilterCutoff;
-      }
-      break;
-    case 3:
-      filterLFO = (int(afterTouch));
-      break;
-  }
-}
-
 void recallPatch(int patchNo) {
   allNotesOff();
   File patchFile = SD.open(String(patchNo).c_str());
@@ -1373,10 +1405,10 @@ void setCurrentPatchData(String data[]) {
   osc1BankA = data[34].toFloat();
   keyTrack = data[35].toFloat();
   filterPoleSW = data[36].toInt();
-  filterLoop = data[37].toInt();
+  FilterLoop = data[37].toInt();
   filterEGinv = data[38].toInt();
   osc1BankB = data[39].toFloat();
-  vcaLoop = data[40].toInt();
+  AmpLoop = data[40].toInt();
   osc2BankA = data[41].toFloat();
   osc2BankB = data[42].toFloat();
   lfoAlt = data[43].toInt();
@@ -1412,6 +1444,7 @@ void setCurrentPatchData(String data[]) {
   updateAmpEnv();
   updatefilterLoop();
   updatevcaLoop();
+  updateAfterTouchDest();
 
   //Patchname
   updatePatchname();
@@ -1421,7 +1454,7 @@ void setCurrentPatchData(String data[]) {
 }
 
 String getCurrentPatchData() {
-  return patchName + "," + String(osc1Tune) + "," + String(fmDepth) + "," + String(osc2Tune) + "," + String(osc1WaveMod) + "," + String(osc2WaveMod) + "," + String(osc1WaveSelect) + "," + String(osc2WaveSelect) + "," + String(glideTime) + "," + String(filterLogLin) + "," + String(noiseLevel) + "," + String(osc2Level) + "," + String(osc1Level) + "," + String(fmWaveDepth) + "," + String(ampLogLin) + "," + String(filterCutoff) + "," + String(filterLFO) + "," + String(filterRes) + "," + String(filterType) + "," + String(filterA) + "," + String(filterB) + "," + String(filterC) + "," + String(filterEGlevel) + "," + String(LFORate) + "," + String(LFOWaveform) + "," + String(filterAttack) + "," + String(filterDecay) + "," + String(filterSustain) + "," + String(filterRelease) + "," + String(ampAttack) + "," + String(ampDecay) + "," + String(ampSustain) + "," + String(ampRelease) + "," + String(volumeControl) + "," + String(osc1BankA) + "," + String(keyTrack) + "," + String(filterPoleSW) + "," + String(filterLoop) + "," + String(filterEGinv) + "," + String(osc1BankB) + "," + String(vcaLoop) + "," + String(osc2BankA) + "," + String(osc2BankB) + "," + String(lfoAlt) + "," + String(osc1WaveA) + "," + String(osc1WaveB) + "," + String(osc1WaveC) + "," + String(modWheelLevel) + "," + String(PitchBendLevel) + "," + String(oct1A) + "," + String(oct1B) + "," + String(oct2A) + "," + String(oct2B) + "," + String(osc2WaveA) + "," + String(osc2WaveB) + "," + String(osc2WaveC) + "," + String(AfterTouchDest);
+  return patchName + "," + String(osc1Tune) + "," + String(fmDepth) + "," + String(osc2Tune) + "," + String(osc1WaveMod) + "," + String(osc2WaveMod) + "," + String(osc1WaveSelect) + "," + String(osc2WaveSelect) + "," + String(glideTime) + "," + String(filterLogLin) + "," + String(noiseLevel) + "," + String(osc2Level) + "," + String(osc1Level) + "," + String(fmWaveDepth) + "," + String(ampLogLin) + "," + String(filterCutoff) + "," + String(filterLFO) + "," + String(filterRes) + "," + String(filterType) + "," + String(filterA) + "," + String(filterB) + "," + String(filterC) + "," + String(filterEGlevel) + "," + String(LFORate) + "," + String(LFOWaveform) + "," + String(filterAttack) + "," + String(filterDecay) + "," + String(filterSustain) + "," + String(filterRelease) + "," + String(ampAttack) + "," + String(ampDecay) + "," + String(ampSustain) + "," + String(ampRelease) + "," + String(volumeControl) + "," + String(osc1BankA) + "," + String(keyTrack) + "," + String(filterPoleSW) + "," + String(FilterLoop) + "," + String(filterEGinv) + "," + String(osc1BankB) + "," + String(AmpLoop) + "," + String(osc2BankA) + "," + String(osc2BankB) + "," + String(lfoAlt) + "," + String(osc1WaveA) + "," + String(osc1WaveB) + "," + String(osc1WaveC) + "," + String(modWheelLevel) + "," + String(PitchBendLevel) + "," + String(oct1A) + "," + String(oct1B) + "," + String(oct2A) + "," + String(oct2B) + "," + String(osc2WaveA) + "," + String(osc2WaveB) + "," + String(osc2WaveC) + "," + String(AfterTouchDest);
 }
 
 void checkMux() {

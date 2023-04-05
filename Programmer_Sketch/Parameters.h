@@ -21,10 +21,12 @@ int ClockSource = 0;
 
 float osc1Tune = 0;
 float osc1Tunestr = 0; // for display
+float initialosc1Tune = 511;
 float fmDepth = 0;
 float fmDepthstr = 0;
 float osc2Tune = 0;
 float osc2Tunestr = 0;
+float initialosc2Tune = 511;
 float osc1WaveMod = 0;
 float osc1WaveModstr = 0;
 float osc2WaveMod = 0;
@@ -99,13 +101,11 @@ float keyTrack = 0;
 float keyTrackstr = 0;
 
 int osc1BankA = 0;
-int vcaLoop = 0;
 int osc1BankB = 0;
 int osc2BankA = 0;
 int osc2BankB = 0;
 int lfoAlt = 0;
 int filterPoleSW = 0;
-int filterLoop = 0;
 int filterEGinv = 0;
 int PitchBendLevel = 0;
 int PitchBendLevelstr = 0; // for display
