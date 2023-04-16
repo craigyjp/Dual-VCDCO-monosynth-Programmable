@@ -21,7 +21,7 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include <MIDI.h>
-#include <USBHost_t36.h>
+//#include <USBHost_t36.h>
 #include "MidiCC.h"
 #include "Constants.h"
 #include "Parameters.h"
@@ -49,10 +49,10 @@ unsigned int state = PARAMETER;
 boolean cardStatus = false;
 
 //USB HOST MIDI Class Compliant
-USBHost myusb;
-USBHub hub1(myusb);
-USBHub hub2(myusb);
-MIDIDevice midi1(myusb);
+// USBHost myusb;
+// USBHub hub1(myusb);
+// USBHub hub2(myusb);
+// MIDIDevice midi1(myusb);
 
 
 //MIDI 5 Pin DIN
@@ -515,13 +515,13 @@ void updateosc1Bank() {
   }
   if (osc1BankA < 511 && osc1BankB > 511) {
     showCurrentParameterPage("Osc1 Bank", String("Fold"));
-    sr.set(OSC1_BANKA, HIGH);
-    sr.set(OSC1_BANKB, LOW);
+    sr.set(OSC1_BANKA, LOW);
+    sr.set(OSC1_BANKB, HIGH);
   }
   if (osc1BankA > 511 && osc1BankB < 511) {
     showCurrentParameterPage("Osc1 Bank", String("AM"));
-    sr.set(OSC1_BANKA, LOW);
-    sr.set(OSC1_BANKB, HIGH);
+    sr.set(OSC1_BANKA, HIGH);
+    sr.set(OSC1_BANKB, LOW);
   }
 }
 
@@ -533,13 +533,13 @@ void updateosc2Bank() {
   }
   if (osc2BankA < 511 && osc2BankB > 511) {
     showCurrentParameterPage("Osc2 Bank", String("Fold"));
-    sr.set(OSC2_BANKA, HIGH);
-    sr.set(OSC2_BANKB, LOW);
+    sr.set(OSC2_BANKA, LOW);
+    sr.set(OSC2_BANKB, HIGH);
   }
   if (osc2BankA > 511 && osc2BankB < 511) {
     showCurrentParameterPage("Osc2 Bank", String("AM"));
-    sr.set(OSC2_BANKA, LOW);
-    sr.set(OSC2_BANKB, HIGH);
+    sr.set(OSC2_BANKA, HIGH);
+    sr.set(OSC2_BANKB, LOW);
   }
 }
 
@@ -927,11 +927,13 @@ void updatevcaLoop() {
 
 void updatelfoAlt() {
   if (lfoAlt > 511) {
-    showCurrentParameterPage("LFO Waveform", String("Original"));
+    //showCurrentParameterPage("LFO Waveform", String("Original"));
+    updateStratusLFOWaveform();
     sr.set(LFO_ALT, HIGH);
     midiCCOut(CClfoAlt, 0);
   } else {
-    showCurrentParameterPage("LFO Waveform", String("Alternate"));
+    //showCurrentParameterPage("LFO Waveform", String("Alternate"));
+    updateStratusLFOWaveform();
     sr.set(LFO_ALT, LOW);
     midiCCOut(CClfoAlt, 127);
   }
@@ -1016,6 +1018,8 @@ void myControlChange(byte channel, byte control, int value) {
 
     case CCosc1Tune:
       osc1Tune = value;
+      //osc1Tune = ((value >> 3) + initialosc1Tune);
+      //Serial.println(osc1Tune);
       osc1Tunestr = PITCH[value / 8];  // for display
       updateosc1Tune();
       break;
@@ -1028,6 +1032,8 @@ void myControlChange(byte channel, byte control, int value) {
 
     case CCosc2Tune:
       osc2Tune = value;
+      //osc2Tune = ((value >> 3) + initialosc2Tune);
+      //Serial.println(osc1Tune);
       osc2Tunestr = PITCH[value / 8];  // for display
       updateosc2Tune();
       break;

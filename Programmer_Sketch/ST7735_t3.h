@@ -251,7 +251,7 @@ class ST7735_t3 : public Adafruit_GFX {
 
   uint16_t _colstart, _rowstart, _xstart, _ystart, _rot, _screenHeight, _screenWidth;
   SPISettings _spiSettings;
-#if defined(__MK66FX1M0__)
+#if defined(__MK66FX1M0__) || defined(__MK64FX512__)
   uint8_t  _cs, _rs, _rst, _sid, _sclk;
   uint8_t pcs_data, pcs_command;
   uint32_t ctar;
@@ -379,7 +379,7 @@ class ST7735_t3 : public Adafruit_GFX {
   volatile uint8_t      _dma_state;         // DMA status
   volatile uint32_t     _dma_frame_count;   // Can return a frame count...
 
-  #if defined(__MK66FX1M0__) 
+  #if defined(__MK66FX1M0__)
   // T3.6 use Scatter/gather with chain to do transfer
   static DMASetting   _dmasettings[3][4];
   DMAChannel   _dmatx;

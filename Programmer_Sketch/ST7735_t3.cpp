@@ -82,7 +82,7 @@ ST7735_t3::ST7735_t3(uint8_t cs, uint8_t rs, uint8_t rst) :
 /***************************************************************/
 /*     Teensy 3.6                          */
 /***************************************************************/
-#if defined(__MK66FX1M0__)
+#if defined(__MK64FX512__) || defined(__MK66FX1M0__)
 
 inline void ST7735_t3::waitTransmitComplete(void)  {
     uint32_t tmp __attribute__((unused));
@@ -228,6 +228,7 @@ void ST7735_t3::setBitrate(uint32_t n)
 	_pkinetisk_spi->CTAR1 = ctar | SPI_CTAR_FMSZ(15);
 	_pkinetisk_spi->MCR = SPI_MCR_MSTR | SPI_MCR_PCSIS(0x1F) | SPI_MCR_CLR_TXF | SPI_MCR_CLR_RXF;
 }
+
 
 
 /***************************************************************/
@@ -545,7 +546,7 @@ void ST7735_t3::commonInit(const uint8_t *cmdList, uint8_t mode)
 	_colstart  = _rowstart = 0; // May be overridden in init func
   	_ystart = _xstart = 0;
 
-#if defined(__MK66FX1M0__)
+#if defined(__MK66FX1M0__) || defined(__MK64FX512__)
 	if (_sid == (uint8_t)-1) _sid = 11;
 	if (_sclk == (uint8_t)-1) _sclk = 13;
 

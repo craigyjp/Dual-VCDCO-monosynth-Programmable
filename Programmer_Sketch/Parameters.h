@@ -21,12 +21,12 @@ int ClockSource = 0;
 
 float osc1Tune = 0;
 float osc1Tunestr = 0; // for display
-float initialosc1Tune = 511;
+float initialosc1Tune = 448;
 float fmDepth = 0;
 float fmDepthstr = 0;
 float osc2Tune = 0;
 float osc2Tunestr = 0;
-float initialosc2Tune = 511;
+float initialosc2Tune = 384;
 float osc1WaveMod = 0;
 float osc1WaveModstr = 0;
 float osc2WaveMod = 0;
