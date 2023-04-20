@@ -8,6 +8,8 @@ Switched the DCO processors to Waveshare RP2040 Zero chips to allow greater cont
 
 - This takes the previous DUAL DCO monosynth and integrates a programmer section to read all the controls and store them on an SD card inside the synth for instant recall of 999 memories.
 
+![Synth](photos/synth.jpg)
+
 https://www.youtube.com/watch?v=fpNUdnT3NE0
 
 - Specifications
